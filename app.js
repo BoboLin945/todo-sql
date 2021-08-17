@@ -2,6 +2,12 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const methodOverride = require('method-override')
 
+const db = require('./models')
+const Todo = db.Todo
+const User = db.User
+
+const routes = require('./routes')
+
 const app = express()
 const PORT = 3000
 
@@ -10,29 +16,7 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-// index
-app.get('/', (req, res) => {
-  res.send(`hello world!`)
-})
-
-// login page
-app.get('/users/login', (req, res) => {
-  res.render('login')
-})
-// login
-app.post('/users/login', (req,res) => {
-  
-})
-// logout
-
-// register page
-app.get('/users/register', (req, res) => {
-  res.render('register')
-})
-// register
-app.post('/users/register', (req, res) => {
-
-})
+app.use(routes)
 
 app.listen(PORT, () => {
   console.log(`App is running on http://localhost:${PORT}`)
