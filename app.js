@@ -10,8 +10,28 @@ app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
+// index
 app.get('/', (req, res) => {
   res.send(`hello world!`)
+})
+
+// login page
+app.get('/users/login', (req, res) => {
+  res.render('login')
+})
+// login
+app.post('/users/login', (req,res) => {
+  
+})
+// logout
+
+// register page
+app.get('/users/register', (req, res) => {
+  res.render('register')
+})
+// register
+app.post('/users/register', (req, res) => {
+
 })
 
 app.listen(PORT, () => {
