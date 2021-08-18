@@ -1,12 +1,14 @@
 const express = require('express')
 const router = express.Router()
 
+const { authentication } = require('../middleware/auth')
+
 const home = require('./modules/home')
 const users = require('./modules/users')
 const todos = require('./modules/todos')
 
-router.use('/', home)
 router.use('/users', users)
-router.use('/todos', todos)
+router.use('/todos', authentication, todos)
+router.use('/', authentication, home)
 
 module.exports = router
