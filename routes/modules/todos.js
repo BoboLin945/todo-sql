@@ -18,6 +18,7 @@ router.post('/', (req, res) => {
     UserId
   })
     .then(() => {
+      req.flash('success_msg', '新增成功。')
       res.redirect('/')
     })
     .catch(err => console.log(err))
@@ -53,7 +54,10 @@ router.put('/:id', (req, res) => {
       // else { todo.isDone = false }
       return todo.save()
     })
-    .then(() => res.redirect('/'))
+    .then(() => {
+      req.flash('success_msg', '修改成功。')
+      res.redirect('/')
+    })
     .catch(err => console.log(err))
 })
 
@@ -62,11 +66,14 @@ router.delete('/:id', (req, res) => {
   const id = req.params.id
   const UserId = req.user.id
   return Todo.findOne({ where: { id, UserId } })
-  .then(todo => {
-    todo.destroy()
-  })
-  .then(() => res.redirect('/'))
-  .catch(err => console.log(err))
+    .then(todo => {
+      todo.destroy()
+    })
+    .then(() => {
+      req.flash('success_msg', '刪除成功。')
+      res.redirect('/')
+    })
+    .catch(err => console.log(err))
 })
 
 module.exports = router
