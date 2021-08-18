@@ -48,4 +48,4 @@ http://localhost:3000/
 * [sequelize](https://sequelize.org/) (^6.6.5)
 * [passport.js](http://www.passportjs.org/) (^0.4.1)
 * connect-flash (^0.1.1)
-* Bootstrap version 4
+* Bootstrap
