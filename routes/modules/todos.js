@@ -8,17 +8,19 @@ const Todo = db.Todo
 router.get('/create', (req, res) => {
   res.render('create')
 })
-// create
-router.post('/', (req,res) => {
+
+// create function
+router.post('/', (req, res) => {
   const UserId = req.user.id
   const { name } = req.body
   Todo.create({
     name,
     UserId
   })
-  .then(() => {
-    res.redirect('/')
-  })
+    .then(() => {
+      res.redirect('/')
+    })
+    .catch(err => console.log(err))
 })
 
 // read
@@ -29,7 +31,42 @@ router.get('/:id', (req, res) => {
     .catch(error => { console.log(error) })
 })
 
-// update
+// update page
+router.get('/:id/edit', (req, res) => {
+  const id = req.params.id
+  const UserId = req.user.id
+  Todo.findOne({ where: { id, UserId } })
+    .then(todo => res.render('edit', { todo: todo.toJSON() }))
+    .catch(err => console.log(err))
+})
+
+// update function
+router.put('/:id', (req, res) => {
+  const { name, isDone } = req.body
+  const id = req.params.id
+  const UserId = req.user.id
+  return Todo.findOne({ where: { id, UserId } })
+    .then(todo => {
+      todo.name = name
+      todo.isDone = isDone === 'on'
+      // if (isDone === 'on') { todo.isDone = true } 
+      // else { todo.isDone = false }
+      return todo.save()
+    })
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
+})
+
 // delete
+router.delete('/:id', (req, res) => {
+  const id = req.params.id
+  const UserId = req.user.id
+  return Todo.findOne({ where: { id, UserId } })
+  .then(todo => {
+    todo.destroy()
+  })
+  .then(() => res.redirect('/'))
+  .catch(err => console.log(err))
+})
 
 module.exports = router
