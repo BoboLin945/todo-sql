@@ -6,10 +6,8 @@ const Todo = db.Todo
 
 // index
 router.get('/', (req, res) => {
-  return Todo.findAll({
-    raw: true,
-    nest: true
-  })
+  const UserId = req.user.id
+  Todo.findAll({ where: { UserId }, raw: true, nest: true })
     .then((todos) => {
       return res.render('index', { todos })
     })
